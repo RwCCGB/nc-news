@@ -22,14 +22,15 @@ const seed = ({ topicData, userData, articleData, commentData }) => {
       const topicsTablePromise = db.query(`
       CREATE TABLE topics (
         slug VARCHAR PRIMARY KEY,
-        description VARCHAR
+        description VARCHAR,
+        img_url VARCHAR(1000)
       );`);
 
       const usersTablePromise = db.query(`
       CREATE TABLE users (
         username VARCHAR PRIMARY KEY,
         name VARCHAR NOT NULL,
-        avatar_url VARCHAR
+        avatar_url VARCHAR(1000)
       );`);
 
       return Promise.all([topicsTablePromise, usersTablePromise]);
@@ -41,21 +42,21 @@ const seed = ({ topicData, userData, articleData, commentData }) => {
         title VARCHAR NOT NULL,
         topic VARCHAR NOT NULL REFERENCES topics(slug),
         author VARCHAR NOT NULL REFERENCES users(username),
-        body VARCHAR NOT NULL,
-        created_at TIMESTAMP DEFAULT NOW(),
+        body TEXT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         votes INT DEFAULT 0 NOT NULL,
-        article_img_url VARCHAR DEFAULT 'https://images.pexels.com/photos/97050/pexels-photo-97050.jpeg?w=700&h=700'
+        article_img_url VARCHAR(1000)
       );`);
     })
     .then(() => {
       return db.query(`
       CREATE TABLE comments (
         comment_id SERIAL PRIMARY KEY,
-        body VARCHAR NOT NULL,
         article_id INT REFERENCES articles(article_id) NOT NULL,
+        body TEXT,
         author VARCHAR REFERENCES users(username) NOT NULL,
         votes INT DEFAULT 0 NOT NULL,
-        created_at TIMESTAMP DEFAULT NOW()
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );`);
     })
     .then(() => {
