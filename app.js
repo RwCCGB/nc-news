@@ -4,8 +4,6 @@ const getTopics = require("./controllers/topics.controller.js")
 
 const app = express();
 
-//app.get('/api/articles', getArticles.getArticles)
-
 app.get('/api/topics', getTopics)
 
 app.get('/api/articles', getArticles)
