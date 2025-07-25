@@ -53,7 +53,9 @@ describe("GET /api/articles", () => {
         }
       })
   })
+  test.skip("ERR Add error handling checks", ()=>{
 
+  })     
 });
 
 describe("GET /api/topics", ()=>{
@@ -75,7 +77,10 @@ describe("GET /api/topics", ()=>{
           
         })
       })
-  })      
+  }) 
+  test.skip("ERR Add error handling checks", ()=>{
+
+  })     
 })
 
 describe("GET /api/users", () =>{
