@@ -32,7 +32,7 @@ describe("GET /api/articles", () => {
         })
       })
   })
-  
+
   test("200: Articles returns list with total comment count, sorted by date (desc) and no body using a JOIN", () =>{
     return request(app)
       .get("/api/articles")
@@ -76,4 +76,32 @@ describe("GET /api/topics", ()=>{
         })
       })
   })      
+})
+
+describe("GET /api/users", () =>{
+  test("200: Responds with OK status", () =>{
+    return request(app)
+      .get('/api/users')
+      .expect(200)
+  })
+
+  test("200: Responds with OK status and list of users", ()=>{
+    return request(app)
+        .get('/api/users')
+        .expect(200)
+        .then(({body}) => {
+          expect(body.users.length).toBeGreaterThan(0)
+        
+          body.users.forEach((user) =>{
+            expect(typeof user.username).toBe("string")
+            expect(typeof user.name).toBe("string")
+            expect(typeof user.avatar_url).toBe("string")
+          })
+        
+        })
+  })
+
+  test.skip("ERR: Responds with an error, TBC", () =>{
+
+  })
 })
