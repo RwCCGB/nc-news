@@ -140,3 +140,41 @@ describe("GET /api/articles/:article_id", () =>{
         })
   })
 })
+
+describe("GET /api/articles/:article_id/comments", ()=>{
+  test("200: Responds with comments based on article ID in correct order", ()=>{
+    let article_id = 1
+    let expectedArticleId = 1
+    return request(app)
+      .get(`/api/articles/${article_id}/comments`)
+      .expect(200)
+      .then(({body}) =>{
+        expect(Array.isArray(body.comments)).toBe(true)
+    
+        }).catch((err) => {
+          if(err.res){
+              console.log("Status ", err.response.status)
+              console.log("Body ", err.response.body)
+              console.log("Full ", err)
+          }
+          throw err
+        })
+    })
+    test("400: Responds with error when not a valid article ID", ()=>{
+      return request(app)
+        .get("/api/articles/HelloWorld/comments")
+        .expect(400)
+        .then(({body}) => {
+          expect(body.msg).toBe("Invalid article id")
+        })
+    })
+    test("404: Responds with error when not an article is not found", ()=>{
+      return request(app)
+        .get("/api/articles/1000000/comments")
+        .expect(404)
+        .then(({body}) => {
+          expect(body.msg).toBe("article not found")
+        })
+    })
+  })
+
