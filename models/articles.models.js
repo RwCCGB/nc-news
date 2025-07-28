@@ -22,7 +22,7 @@ const fetchArticles = () => {
         })
 }
 
-const getArticleById = (article_id) => {
+const fetchArticleById = (article_id) => {
     return db.query(
         `SELECT 
             author, 
@@ -40,8 +40,8 @@ const getArticleById = (article_id) => {
         if(rows.length === 0){
             return Promise.reject({status: 404, msg: "Not Found"})
         }
-        return rows
+        return rows[0]
     })
 }
 
-module.exports = fetchArticles
+module.exports = {fetchArticles, fetchArticleById}

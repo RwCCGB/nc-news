@@ -1,5 +1,5 @@
 const express = require('express');
-const getArticles = require("./controllers/articles.controllers.js")
+const {getArticles, getArticlesById} = require("./controllers/articles.controllers.js")
 const getTopics = require("./controllers/topics.controller.js")
 const getUsers = require("./controllers/users.controllers.js")
 
@@ -11,6 +11,8 @@ app.get('/api/topics', getTopics)
 app.get('/api/articles', getArticles)
 
 app.get('/api/users', getUsers)
+
+app.get('/api/articles/:article_id', getArticlesById)
 
 //#region Error Handling
 

@@ -45,7 +45,6 @@ describe("GET /api/articles", () => {
           expect(article.body).toBe(undefined)
         })
         // Validate the date time against the order 
-        console.log(articles)
         for (let i = 0; i < articles.length -1; i++){
           const currentDate = new Date(articles[i].created_at).getTime()
           const nextDate = new Date(articles[i + 1].created_at).getTime()  
@@ -106,16 +105,38 @@ describe("GET /api/users", () =>{
   })
 
   test.skip("ERR: Responds with an error, TBC", () =>{
-
   })
 })
 
 describe("GET /api/articles/:article_id", () =>{
   test("200: Responds with correct article information based on ID", ()=>{
-
+    let article_id = 1
+    return request(app)
+      .get(`/api/articles/${article_id}`)
+      .expect(200)
+      .then(({body}) =>{
+        expect(body).toHaveProperty("article")
+        expect(body.article).toHaveProperty("article_id", 1)
+      }).catch((err) => {
+        console.log("Error: ", err)
+        throw err
+      })
   })
 
-  test.skip("404: Reponds with Not Found for article with incorrect ID", ()=>{
-    
+  test("400: Responds with Invalid article ID when sent not a number for ID", ()=>{
+    return request(app)
+      .get("/api/articles/helloWorld")
+      .expect(400)
+      .then(({body})=>{
+        expect(body.msg).toBe("Invalid article id")
+      })
+  })
+  test("404: Reponds with Not Found for article with incorrect ID", ()=>{
+    return request(app)
+        .get("/api/articles/1000000000")
+        .expect(404)
+        .then(({body}) => {
+          expect(body.msg).toBe("Not Found")
+        })
   })
 })
