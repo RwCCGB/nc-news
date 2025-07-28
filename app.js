@@ -1,5 +1,5 @@
 const express = require('express');
-const {getArticles, getArticlesById} = require("./controllers/articles.controllers.js")
+const {getArticles, getArticlesById, updateArticleVotes} = require("./controllers/articles.controllers.js")
 const getTopics = require("./controllers/topics.controller.js")
 const getUsers = require("./controllers/users.controllers.js")
 const {handleCustomError, handleDbError, handleServerError} = require("./errors/errorHandler.js")
@@ -19,6 +19,8 @@ app.get('/api/articles/:article_id', getArticlesById)
 app.get('/api/articles/:article_id/comments', getCommentsByArticleId)
 
 app.post('/api/articles/:article_id/comments', postCommentById)
+
+app.patch('/api/articles/:article_id', updateArticleVotes)
 
 //#region Error Handling
 app.use(handleCustomError)

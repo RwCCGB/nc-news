@@ -220,3 +220,55 @@ describe("GET /api/articles/:article_id/comments", ()=>{
     })
   })
 
+  describe("PATCH /api/articles/:article_id", ()=>{
+    test.only("200: Responds OK when vote incremented and returns updated article", () =>{
+      return request(app)
+        .patch("/api/articles/1")
+        .send({inc_votes: 1})
+        .expect(200)
+        .then(({body}) => {
+          expect(body.article).toMatchObject({
+            article_id: 1,
+            votes: expect.any(Number),
+          })
+        })
+    })
+    test.only("400: Responds with 400  when article ID is invalid", ()=>{
+        return request(app)
+          .patch("/api/articles/HelloWorld")
+          .send({inc_votes: 1})
+          .expect(400)
+          .then(({body}) =>{
+            expect(body.msg).toBe("Invalid article id")
+          })
+    })
+
+    test.only("400: Responds with 404 when inc_votes is missing", () =>{
+      return request(app)
+          .patch("/api/articles/1")
+          .send({})
+          .expect(400)
+          .then(({body}) =>{
+            expect(body.msg).toBe("Invalid vote type")
+          })
+    })
+    test.only("400: Respond with 400 when inc_votes is not a number", ()=>{
+      return request(app)
+          .patch("/api/articles/1")
+          .send({inc_votes: "votingrules"})
+          .expect(400)
+          .then(({body}) =>{
+            expect(body.msg).toBe("Invalid vote type")
+          })
+    })
+    test.only("404: Responds with not found when article_id does not exist", () =>{
+      return request(app)
+      .patch("/api/articles/1000000000")
+      .send({inc_votes: 1})
+      .expect(404)
+      .then(({body}) =>{
+        expect(body.msg).toBe("Article not found")
+      })
+    })
+  })
+

@@ -44,4 +44,21 @@ const fetchArticleById = (article_id) => {
     })
 }
 
-module.exports = {fetchArticles, fetchArticleById}
+const updateArticleVotesById = (article_id, inc_votes) =>{
+    if(isNaN(article_id)){
+        return Promise.reject({status:400, msg: "Invalid article id"})
+    }
+    if(typeof inc_votes !== "number"){
+        return Promise.reject({status: 400, msg: "Invalid vote type"})
+    }
+    console.log("article id", article_id, "inc", inc_votes)
+    return db.query(`UPDATE articles SET votes = votes + $1 WHERE article_id = $2 RETURNING *;`, [inc_votes, article_id])
+        .then(({rows}) => {
+            if(rows.length === 0){
+                return Promise.reject({status: 404, msg: "Article not found"})
+            }
+            return rows[0]
+        })
+}
+
+module.exports = {fetchArticles, fetchArticleById, updateArticleVotesById}
