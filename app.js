@@ -12,4 +12,29 @@ app.get('/api/articles', getArticles)
 
 app.get('/api/users', getUsers)
 
+//#region Error Handling
+
+app.use((err, req, res, next) =>{
+    if(err.status){
+        res.status(err.status).send({msg: err.msg})
+    }
+    else{
+        next(err)
+    }
+})
+
+app.use((err, req, res, next) =>{
+    if(err.code === 404){
+        res.status(err.code).send({msg: "Not Found"})
+    }
+})
+
+app.use((err, req, res, next) =>{
+    if(err.code === 500){
+        res.status(err.code).send({msg:"Internal Server Error Detected"})
+    }
+})
+
+//#endregion
+
 module.exports = app

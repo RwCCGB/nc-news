@@ -102,11 +102,20 @@ describe("GET /api/users", () =>{
             expect(typeof user.name).toBe("string")
             expect(typeof user.avatar_url).toBe("string")
           })
-        
         })
   })
 
   test.skip("ERR: Responds with an error, TBC", () =>{
 
+  })
+})
+
+describe("GET /api/articles/:article_id", () =>{
+  test("200: Responds with correct article information based on ID", ()=>{
+
+  })
+
+  test.skip("404: Reponds with Not Found for article with incorrect ID", ()=>{
+    
   })
 })
