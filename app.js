@@ -2,7 +2,7 @@ const express = require('express');
 const {getArticles, getArticlesById} = require("./controllers/articles.controllers.js")
 const getTopics = require("./controllers/topics.controller.js")
 const getUsers = require("./controllers/users.controllers.js")
-
+const {handleCustomError, handleDbError, handleServerError} = require("./errors/errorHandler.js")
 
 const app = express();
 
@@ -15,7 +15,10 @@ app.get('/api/users', getUsers)
 app.get('/api/articles/:article_id', getArticlesById)
 
 //#region Error Handling
-
+app.use(handleCustomError)
+app.use(handleDbError)
+app.use(handleServerError)
+/*
 app.use((err, req, res, next) =>{
     if(err.status){
         res.status(err.status).send({msg: err.msg})
@@ -36,7 +39,7 @@ app.use((err, req, res, next) =>{
         res.status(err.code).send({msg:"Internal Server Error Detected"})
     }
 })
-
+*/
 //#endregion
 
 module.exports = app

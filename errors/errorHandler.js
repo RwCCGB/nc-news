@@ -26,4 +26,4 @@ const handleServerError = (err, req, res, next) =>{
     res.stat(500).send({msg: "Internal Server Error Detected"})
 }
 
-module.exports = handleCustomError, handleDbError, handleServerError
+module.exports = {handleCustomError, handleDbError, handleServerError}

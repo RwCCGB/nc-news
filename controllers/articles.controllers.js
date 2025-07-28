@@ -15,7 +15,10 @@ const getArticlesById = (req, res, next) => {
         return next({status: 400, msg: "Invalid article id"})
     }
     fetchArticleById(article_id).then((article) =>{
-        res.status(200).send({article})
+        if(!article){
+            return Promise.reject({status: 404, msg: "Not Found"})
+        }
+        res.status(200).send({article}).catch(next)
     })
     .catch(next)
 }
