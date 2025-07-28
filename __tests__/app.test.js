@@ -178,3 +178,45 @@ describe("GET /api/articles/:article_id/comments", ()=>{
     })
   })
 
+  describe("POST /api/articles/:article_id/comments", ()=>{
+    test("201: Responds with a success and the message", ()=>{
+      const newCommnet = {username: "lurker", body: "This is an epic comment"}
+      const article_id = 1
+
+      return request(app)
+        .post(`/api/articles/${article_id}/comments`)
+        .send(newCommnet)
+        .expect(201)
+        .then(({body}) =>{
+          const comment = body.comment
+          expect(comment.author).toBe("lurker")
+          expect(comment.body).toBe("This is an epic comment")
+          expect(comment.article_id).toBe(article_id)
+        })      
+    })
+    test("400: Responds with not found when not sent a comment", ()=>{
+      const newCommnet = {username: "lurker"}
+      const article_id = 1
+
+      return request(app)
+        .post(`/api/articles/${article_id}/comments`)
+        .send(newCommnet)
+        .expect(400)
+        .then(({body}) =>{
+          expect(body.msg).toBe("Missing username or comment")
+        })      
+    })
+    test("404: Responds with not found when username not found", ()=>{
+      const newCommnet = {username: "lurkerNotHere", body: "My epic comment"}
+      const article_id = 1
+
+      return request(app)
+        .post(`/api/articles/${article_id}/comments`)
+        .send(newCommnet)
+        .expect(404)
+        .then(({body}) =>{
+          expect(body.msg).toBe("User not found")
+        })      
+    })
+  })
+

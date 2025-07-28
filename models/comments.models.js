@@ -34,4 +34,44 @@ const fetchCommentsByArticleId = (article_id) =>{
     })
 }
 
-module.exports = fetchCommentsByArticleId
+const postComment = (article_id, username, body) => {
+    if(isNaN(article_id)){
+        return Promise.reject({status: 400, msg: "Invalid article id"})
+    }
+    if(!username || !body){
+        return Promise.reject({status: 400, msg: "Missing username or comment"})
+    }
+    const checkArticle = db.query(`
+        SELECT
+            *
+        FROM
+            articles
+        WHERE article_id = $1`, [article_id]
+        )
+    const checkUser = db.query(`
+        SELECT
+            *
+        FROM
+            users
+        WHERE 
+            username = $1`, [username]
+        )
+    return Promise.all([checkArticle, checkUser])
+        .then(([articleResult, userResult]) =>{
+            if(articleResult.rows.length === 0){
+                return Promise.reject({status: 404, msg: "Article not found"})
+            }
+            if(userResult.rows.length === 0){
+                return Promise.reject({status: 404, msg: "User not found"})
+            }
+console.log("All data: ", {username, article_id, body})
+            return db.query(
+                `INSERT INTO
+                    comments (author, article_id, body)
+                VALUES (
+                    $1, $2, $3
+                ) RETURNING *`, [username, article_id, body]
+            )
+        }).then(({rows}) => rows[0])
+}
+module.exports = {fetchCommentsByArticleId, postComment}

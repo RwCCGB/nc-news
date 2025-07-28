@@ -3,8 +3,10 @@ const {getArticles, getArticlesById} = require("./controllers/articles.controlle
 const getTopics = require("./controllers/topics.controller.js")
 const getUsers = require("./controllers/users.controllers.js")
 const {handleCustomError, handleDbError, handleServerError} = require("./errors/errorHandler.js")
-const getCommentsByArticleId = require("./controllers/comments.controller.js")
+const {getCommentsByArticleId, postCommentById} = require("./controllers/comments.controller.js")
 const app = express();
+
+app.use(express.json())
 
 app.get('/api/topics', getTopics)
 
@@ -15,6 +17,8 @@ app.get('/api/users', getUsers)
 app.get('/api/articles/:article_id', getArticlesById)
 
 app.get('/api/articles/:article_id/comments', getCommentsByArticleId)
+
+app.post('/api/articles/:article_id/comments', postCommentById)
 
 //#region Error Handling
 app.use(handleCustomError)
