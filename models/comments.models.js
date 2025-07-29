@@ -74,4 +74,18 @@ console.log("All data: ", {username, article_id, body})
             )
         }).then(({rows}) => rows[0])
 }
-module.exports = {fetchCommentsByArticleId, postComment}
+
+const deleteComment = (comment_id) => {
+    if(isNaN(comment_id)){
+        return Promise.reject({status: 400, msg: "Invalid comment_id"})
+    }
+
+    return db.query(`DELETE FROM comments WHERE comment_id = $1 RETURNING *;`, [comment_id])
+        .then(({rows}) => {
+            if(rows.length === 0){
+                return Promise.reject({status: 404, msg: "Comment not found"})
+            }
+            return rows
+        })
+}
+module.exports = {fetchCommentsByArticleId, postComment, deleteComment}

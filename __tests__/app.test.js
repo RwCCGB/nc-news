@@ -221,7 +221,7 @@ describe("GET /api/articles/:article_id/comments", ()=>{
   })
 
   describe("PATCH /api/articles/:article_id", ()=>{
-    test.only("200: Responds OK when vote incremented and returns updated article", () =>{
+    test("200: Responds OK when vote incremented and returns updated article", () =>{
       return request(app)
         .patch("/api/articles/1")
         .send({inc_votes: 1})
@@ -233,7 +233,7 @@ describe("GET /api/articles/:article_id/comments", ()=>{
           })
         })
     })
-    test.only("400: Responds with 400  when article ID is invalid", ()=>{
+    test("400: Responds with 400  when article ID is invalid", ()=>{
         return request(app)
           .patch("/api/articles/HelloWorld")
           .send({inc_votes: 1})
@@ -243,7 +243,7 @@ describe("GET /api/articles/:article_id/comments", ()=>{
           })
     })
 
-    test.only("400: Responds with 404 when inc_votes is missing", () =>{
+    test("400: Responds with 404 when inc_votes is missing", () =>{
       return request(app)
           .patch("/api/articles/1")
           .send({})
@@ -252,7 +252,7 @@ describe("GET /api/articles/:article_id/comments", ()=>{
             expect(body.msg).toBe("Invalid vote type")
           })
     })
-    test.only("400: Respond with 400 when inc_votes is not a number", ()=>{
+    test("400: Respond with 400 when inc_votes is not a number", ()=>{
       return request(app)
           .patch("/api/articles/1")
           .send({inc_votes: "votingrules"})
@@ -261,7 +261,7 @@ describe("GET /api/articles/:article_id/comments", ()=>{
             expect(body.msg).toBe("Invalid vote type")
           })
     })
-    test.only("404: Responds with not found when article_id does not exist", () =>{
+    test("404: Responds with not found when article_id does not exist", () =>{
       return request(app)
       .patch("/api/articles/1000000000")
       .send({inc_votes: 1})
@@ -272,3 +272,26 @@ describe("GET /api/articles/:article_id/comments", ()=>{
     })
   })
 
+  describe("DELETE: /api/comments/:comment_id", () =>{
+    test("204: Responds with 204 when deleting a comment by comment_id", ()=>{
+      return request(app)
+        .delete("/api/comments/1")
+        .expect(204)
+    })
+    test("400: Responds with 400 when invalid comment_id", ()=>{
+      return request(app)
+        .delete("/api/comments/HelloWorld")
+        .expect(400)
+        .then(({body}) =>{
+          expect(body.msg).toBe("Invalid comment_id")
+        })
+    })
+    test("404: Responds 404 when comment not found", ()=>{
+      return request(app)
+        .delete("/api/comments/100000000")
+        .expect(404)
+        .then(({body}) => {
+          expect(body.msg).toBe("Comment not found")
+        })
+    })
+  })
