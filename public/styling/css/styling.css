@@ -1,0 +1,58 @@
+body {
+  font-family: 'Segoe UI', sans-serif;
+  margin: 2rem;
+  line-height: 1.6;
+  background-color: white;
+  color: #222;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.endpoints-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 2rem;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.endpoints-table th,
+.endpoints-table td {
+  border: 2px solid black;
+  padding: 0.75rem;
+  text-align: left;
+  background-color: white;
+}
+
+.endpoints-table th {
+  background-color: #eeeeee;
+}
+
+.response {
+  background-color: #f6f8fa;
+  border: 1px solid #ddd;
+  padding: 1rem;
+  font-family: monospace;
+  overflow-x: auto;
+  border-radius: 4px;
+}
+
+  body.manual-dark {
+    background-color: #111 !important;
+    color: #eee !important;
+  }
+  
+  body.manual-dark .endpoints-table th,
+  body.manual-dark .endpoints-table td {
+    border-color: #ccc !important;
+    background-color: #1a1a1a !important;
+    color: #eee !important;
+  }
+  
+  body.manual-dark .endpoints-table th {
+    background-color: #222 !important;
+  }
+  
+  body.manual-dark .response {
+    background-color: #1c1c1c !important;
+    color: #ddd !important;
+    border-color: #444 !important;
+  }

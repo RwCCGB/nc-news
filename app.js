@@ -1,12 +1,18 @@
 const express = require('express');
+const path = require('path')
+const app = express();
+
+app.use(express.json())
+
+app.use('/api',express.static(path.join(__dirname, 'public')))
+app.get('api', (req,res)=>{ res.sendFile(path.join(__dirname, 'public', 'index.html'))})
+
 const {getArticles, getArticlesById, updateArticleVotes} = require("./controllers/articles.controllers.js")
 const getTopics = require("./controllers/topics.controller.js")
 const getUsers = require("./controllers/users.controllers.js")
 const {handleCustomError, handleDbError, handleServerError} = require("./errors/errorHandler.js")
 const {getCommentsByArticleId, postCommentById, deleteCommentsById} = require("./controllers/comments.controller.js")
-const app = express();
 
-app.use(express.json())
 
 app.get('/api/topics', getTopics)
 

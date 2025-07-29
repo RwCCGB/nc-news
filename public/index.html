@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>NC News API</title>
+    <link rel="stylesheet" href="./styling/css/styling.css" /> 
+</head>
+<body>
+    <header>
+        <img src="./styling/img/1000029435.png" alt="NC News Banner" style="width: 100%; max-width: 800px; height:auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,.2);"/>
+        <h1>NC News API</h1>
+        <p>Information about the APIs created for the NC News Project</p>
+    </header>
+
+    <nav>
+        <h2>Available Endpoints</h2>
+        <table class=".endpoints-table">
+        <thead>
+            <tr>
+            <th>Method</th>
+            <th>Endpoint</th>
+            <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>GET</td><td><a href="#/api/articles">/api/articles</a></td><td>List all articles</td></tr>
+            <tr><td>GET</td><td><a href="#Get/api/articles/:article_id">/api/articles/:article_id</a></td><td>Get an article by ID</td></tr>
+            <tr><td>POST</td><td><a href="#/api/articles/:article_id/comments">/api/articles/:article_id/comments</api/articles/:article_id/comments/a></td><td>Post a new comment</td></tr>
+            <tr><td>PATCH</td><td><a href="#Patch/api/articles/:article_id">/api/articles/:article_id</a></td><td>Update article votes</td></tr>
+            <tr><td>DELETE</td><td><a href="#Delete/api/comments/:comment_id">/api/comments/:comment_id</a></td><td>Delete a comment</td></tr>
+        </tbody>
+        </table>
+    </nav>
+
+    <main>
+        <section id="/api/articles">
+        <h2>GET /api/articles</h2>
+        <p>Returns a list of all articles, sorted by date (default).</p>
+        <pre class="response">
+            {  
+            "articles": [
+                {
+                "article_id": 1,
+                "title": "Running with purpose",
+                "topic": "coding",
+                "author": "[username]",
+                "body": "How to look like you mean to run somewhere.",
+                "created_at": "2020-11-07T12:00:00.000Z",
+                "votes": 10,
+                "comment_count": 5
+                },
+                {
+                "article_id": 2,
+                "title": "My lovely article",
+                "topic": "coding",
+                "author": "[username]",
+                "body": "An articles body",
+                "created_at": "2020-11-08T12:00:00.000Z",
+                "votes": 7,
+                "comment_count": 2
+                }
+            ]
+         }
+        </pre>
+        </section>
+
+        <section id="Get/api/articles/:article_id">
+        <h2>GET /api/articles/:article_id</h2>
+        <p>Returns a single article by its ID.</p>
+        <pre class="response">
+        {
+            "article": {
+                "article_id": 1,
+                "title": "Eating Cheese: A Beginners Guide",
+                "topic": "coding",
+                "author": "[username]",
+                "body": "I never knew I was eating cheese wrong!",
+                "created_at": "2020-11-07T12:00:00.000Z",
+                "votes": 10
+            }
+        }   
+        </pre>
+        </section>
+
+        <section id="/api/articles/:article_id/comments">
+        <h2>POST /api/articles/:article_id/comments</h2>
+        <p>Posts a new comment to the specified article.</p>
+        <p><strong>Request Body:</strong></p>
+        <pre class="response">
+            {
+                "username": "[username]",
+                "body": "I love this article!"
+            }
+        </pre>
+        <p><strong>Response:</strong></p>
+        <pre class="response">
+        {
+            "comment": {
+                "comment_id": 42,
+                "author": "[username]",
+                "article_id": 1,
+                "body": "I love this article!",
+                "created_at": "2025-07-28T10:00:00.000Z",
+                "votes": 0
+            }
+        }
+    </pre>
+        </section>
+
+        <section id="Patch/api/articles/:article_id">
+        <h2>PATCH /api/articles/:article_id</h2>
+        <p>Updates the vote count of an article by the number provided.</p>
+        <p><strong>Request Body:</strong></p>
+        <pre class="response">
+            {
+                "inc_votes": 1
+            }
+        </pre>
+        <p><strong>Response:</strong></p>
+        <pre class="response">
+            {
+                "article": {
+                "article_id": 1,
+                "votes": 11
+                }
+            }
+    </pre>
+        </section>
+
+        <section id="Delete/api/comments/:comment_id">
+        <h2>DELETE /api/comments/:comment_id</h2>
+        <p>Deletes the comment. Responds with status 204..</p>
+        </section>
+    </main>
+
+    <button id="theme-toggle">Toggle Dark Mode</button>
+    <script type ="text/javascript">
+        //TODO: Move to scripts.js file
+        const toggleBtn = document.getElementById('theme-toggle');
+        const body = document.body;
+    
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+          body.classList.add('manual-dark');
+        }
+        
+        toggleBtn.addEventListener('click', () => {
+          body.classList.toggle('manual-dark');
+          const isDark = body.classList.contains('manual-dark');
+          localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        });
+        </script>    
+    <footer>
+        Copyright RwCC Inc 2025 - <a href="https://uk.linkedin.com/in/matt-norris-7047a462" >Matt Norris - LinkedIn</a>
+    </footer>
+</body>
+</html>
