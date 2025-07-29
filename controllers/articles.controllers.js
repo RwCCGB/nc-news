@@ -27,14 +27,10 @@ const updateArticleVotes = (req, res, next)=> {
     const {article_id} = req.params
     const {inc_votes} = req.body
 
-    console.log("BODY", req.body)
-    console.log("Article ID ", article_id)
-    console.log("Inc Votes ", inc_votes)
     updateArticleVotesById(article_id, inc_votes)
         .then((article) =>{
             res.status(200).send({article})
         }).catch((err) => {
-            console.log("Patch article error caught: ", err)
             next(err)
         })
 }

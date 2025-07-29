@@ -64,7 +64,6 @@ const postComment = (article_id, username, body) => {
             if(userResult.rows.length === 0){
                 return Promise.reject({status: 404, msg: "User not found"})
             }
-console.log("All data: ", {username, article_id, body})
             return db.query(
                 `INSERT INTO
                     comments (author, article_id, body)

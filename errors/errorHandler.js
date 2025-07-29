@@ -1,5 +1,4 @@
 const handleCustomError = (err, req,res, next) =>{
-    console.log("Customer error handler received: ", err)
     if(err.status && err.msg){
         res.status(err.status).send({msg: err.msg})
     }

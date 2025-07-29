@@ -6,7 +6,6 @@ const getCommentsByArticleId = (req, res, next) =>{
     fetchCommentsByArticleId(article_id).then((comments) =>{
         res.status(200).send({comments})
     }).catch((err) => {
-        console.log("error in getCommentsByArticleId: ", err)
         next(err)
     })
 }
