@@ -56,3 +56,39 @@ body {
     color: #ddd !important;
     border-color: #444 !important;
   }
+
+  #theme-toggle {
+    background-color: #0077cc;
+    color: white;
+    border: none;
+    padding: 0.6rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-top: 1rem;
+    transition: background-color 0.3s;
+  }
+  
+  #theme-toggle:hover,
+  #theme-toggle:focus {
+    background-color: #005fa3;
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+  }
+
+  skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: #000;
+    color: #fff;
+    padding: 0.5rem 1rem;
+    z-index: 100;
+    text-decoration: none;
+    font-weight: bold;
+    transition: top 0.3s ease;
+  }
+  
+  .skip-link:focus {
+    top: 0;
+  }

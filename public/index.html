@@ -7,14 +7,16 @@
     <link rel="stylesheet" href="./styling/css/styling.css" /> 
 </head>
 <body>
+    <a href="#main" class="skip-link">Skip to main content</a>
     <header>
         <img src="./styling/img/1000029435.png" alt="NC News Banner" style="width: 100%; max-width: 800px; height:auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,.2);"/>
-        <h1>NC News API</h1>
+        <h1 id="page-title">NC News API</h1>
         <p>Information about the APIs created for the NC News Project</p>
+        <button id="theme-toggle" aria-label="Toggle Dark Mode" >Toggle Dark Mode</button>
     </header>
 
-    <nav>
-        <h2>Available Endpoints</h2>
+    <nav aria-labelledby="endpoint-nav-title">
+        <h2 aria-label="endpoint-nav-title">Available Endpoints</h2>
         <table class=".endpoints-table">
         <thead>
             <tr>
@@ -33,9 +35,9 @@
         </table>
     </nav>
 
-    <main>
-        <section id="/api/articles">
-        <h2>GET /api/articles</h2>
+    <main id="main">
+        <section id="/api/articles" aria-labelledby="GET-articles-heading">
+        <h2 id="GET-articles-heading">GET /api/articles</h2>
         <p>Returns a list of all articles, sorted by date (default).</p>
         <pre class="response">
             {  
@@ -65,8 +67,8 @@
         </pre>
         </section>
 
-        <section id="Get/api/articles/:article_id">
-        <h2>GET /api/articles/:article_id</h2>
+        <section id="Get/api/articles/:article_id" aria-labelledby="GET-articles-by-id">
+        <h2 id="GET-articles-by-id">GET /api/articles/:article_id</h2>
         <p>Returns a single article by its ID.</p>
         <pre class="response">
         {
@@ -83,8 +85,8 @@
         </pre>
         </section>
 
-        <section id="/api/articles/:article_id/comments">
-        <h2>POST /api/articles/:article_id/comments</h2>
+        <section id="/api/articles/:article_id/comments" aria-labelledby="POST-new-comment">
+        <h2 id="POST-new-comment">POST /api/articles/:article_id/comments</h2>
         <p>Posts a new comment to the specified article.</p>
         <p><strong>Request Body:</strong></p>
         <pre class="response">
@@ -108,8 +110,8 @@
     </pre>
         </section>
 
-        <section id="Patch/api/articles/:article_id">
-        <h2>PATCH /api/articles/:article_id</h2>
+        <section id="Patch/api/articles/:article_id" aria-labelledby="PATCH-vote-count">
+        <h2 aria-label="PATCH-vote-count">PATCH /api/articles/:article_id</h2>
         <p>Updates the vote count of an article by the number provided.</p>
         <p><strong>Request Body:</strong></p>
         <pre class="response">
@@ -125,19 +127,23 @@
                 "votes": 11
                 }
             }
-    </pre>
+        </pre>
         </section>
 
-        <section id="Delete/api/comments/:comment_id">
-        <h2>DELETE /api/comments/:comment_id</h2>
+        <section id="Delete/api/comments/:comment_id" aria-labelledby="DELETE-comment">
+        <h2 id="DELETE-comment">DELETE /api/comments/:comment_id</h2>
         <p>Deletes the comment. Responds with status 204..</p>
+        <p><strong>Request Body:</strong></p>
+        <pre class="response">
+            {
+                "comment_id": 1
+            }
+        </pre>
         </section>
     </main>
 
-    <button id="theme-toggle">Toggle Dark Mode</button>
-
     <footer>
-        Copyright RwCC Inc 2025 - <a href="https://uk.linkedin.com/in/matt-norris-7047a462" >Matt Norris - LinkedIn</a>
+       &copy; Copyright RwCC Inc 2025 - <a href="https://uk.linkedin.com/in/matt-norris-7047a462" >Matt Norris - LinkedIn</a>
     </footer>
     <script src="./scripts/scripts.js" type="text/javascript"></script>
 </body>
