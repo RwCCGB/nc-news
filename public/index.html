@@ -135,24 +135,10 @@
     </main>
 
     <button id="theme-toggle">Toggle Dark Mode</button>
-    <script type ="text/javascript">
-        //TODO: Move to scripts.js file
-        const toggleBtn = document.getElementById('theme-toggle');
-        const body = document.body;
-    
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme === 'dark') {
-          body.classList.add('manual-dark');
-        }
-        
-        toggleBtn.addEventListener('click', () => {
-          body.classList.toggle('manual-dark');
-          const isDark = body.classList.contains('manual-dark');
-          localStorage.setItem('theme', isDark ? 'dark' : 'light');
-        });
-        </script>    
+
     <footer>
         Copyright RwCC Inc 2025 - <a href="https://uk.linkedin.com/in/matt-norris-7047a462" >Matt Norris - LinkedIn</a>
     </footer>
+    <script src="./scripts/scripts.js" type="text/javascript"></script>
 </body>
 </html>
