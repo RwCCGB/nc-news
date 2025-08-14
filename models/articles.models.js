@@ -1,26 +1,52 @@
 const db = require("../db/connection")
 
-const fetchArticles = () => { 
-    return db.query(
-        `SELECT 
-            articles.author, 
-            articles.title, 
-            articles.article_id, 
-            articles.topic, 
-            articles.created_at, 
-            articles.votes, 
-            articles.article_img_url, 
-            COUNT(comments.comment_id)::INT AS comment_count
+const fetchArticles = ({ topic } = {}) => {
+    const params = [];
+    let where = "";
+  
+    if (topic) {
+      params.push(topic)
+      where = "WHERE articles.topic = $1";
+    }
+  
+    return db
+      .query(
+        `
+        SELECT
+          articles.author,
+          articles.title,
+          articles.article_id,
+          articles.topic,
+          articles.created_at,
+          articles.votes,
+          articles.article_img_url,
+          COUNT(comments.comment_id)::INT AS comment_count
         FROM articles
-            LEFT JOIN comments
-            ON comments.article_id =
-                articles.article_id
-            GROUP BY articles.article_id
-            ORDER BY articles.created_at DESC;
-        `).then(({rows}) => {
-            return rows
-        })
-}
+        LEFT JOIN comments
+          ON comments.article_id = articles.article_id
+        ${where}
+        GROUP BY articles.article_id
+        ORDER BY articles.created_at DESC;
+        `,
+        params
+      )
+      .then(({ rows }) => {
+        if (topic && rows.length === 0) {
+          return db
+            .query(`SELECT 1 FROM topics WHERE slug = $1;`, [topic])
+            .then(({ rows: trows }) => {
+              if (trows.length === 0) {
+                return Promise.reject({ status: 404, msg: "Topic not found" })
+              }
+              // valid topic, just no articles
+              return []
+            })
+        }
+        return rows;
+      })
+  }
+    
+           
 
 const fetchArticleById = (article_id) => {
     return db.query(
