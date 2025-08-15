@@ -1,14 +1,18 @@
 const db = require("../db/connection")
 
-const fetchArticles = ({ topic } = {}) => {
+const fetchArticles = ({ topic, sort_by, order } = {}) => {
+    const sortBy = (sort_by || "created_at").toLowerCase()
+    const sortOrder = (order || "desc").toUpperCase()
+    
     const params = [];
     let where = "";
-  
+   
     if (topic) {
       params.push(topic)
       where = "WHERE articles.topic = $1";
     }
-  
+   const sortValue = sortBy === "comment_count" ? "comment_count" : `articles.${sortBy}`
+
     return db
       .query(
         `
@@ -26,7 +30,7 @@ const fetchArticles = ({ topic } = {}) => {
           ON comments.article_id = articles.article_id
         ${where}
         GROUP BY articles.article_id
-        ORDER BY articles.created_at DESC;
+        ORDER BY ${sortValue} ${sortOrder};
         `,
         params
       )
