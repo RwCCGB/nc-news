@@ -3,8 +3,8 @@ const {fetchArticleById, fetchArticles, updateArticleVotesById} = require("../mo
 
 
 const getArticles = (req, res) => { 
-    const {topic} = req.query
-    fetchArticles({topic}).then((articles) => {
+    const {sort_by, order, topic} = req.query
+    fetchArticles({sort_by, order, topic}).then((articles) => {
         res.status(200).send({articles: articles})
     })
 };
